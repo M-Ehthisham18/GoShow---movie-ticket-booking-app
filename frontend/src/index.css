@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+
+@theme{
+  --color-primary : #f84565;
+  --color-primary-dull : #D63854;
+
+}
+
+*{
+  font-family: "Outfit", sans-serif;
+}
+
+body{
+  color: white;
+  background-color: black;
+}
