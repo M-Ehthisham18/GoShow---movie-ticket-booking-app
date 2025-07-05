@@ -34,7 +34,7 @@ const Navbar = () => {
 
         {/* HOME LINK */}
         <div
-          className={`group relative hover:text-primary transition duration-300 ${
+          className={`group relative transition duration-300 ${
             location.pathname === "/" ? "text-primary" : "text-white"
           }`}
         >
@@ -54,7 +54,7 @@ const Navbar = () => {
 
         {/* MOVIES LINK */}
         <div
-          className={`group relative hover:text-primary transition duration-300 ${
+          className={`group relative transition duration-300 ${
             location.pathname === "/movies" ? "text-primary" : "text-white"
           }`}
         >
@@ -74,7 +74,7 @@ const Navbar = () => {
 
         {/* THEATERS LINK */}
         <div
-          className={`group relative hover:text-primary transition duration-300 ${
+          className={`group relative transition duration-300 ${
             location.pathname === "/theaters" ? "text-primary" : "text-white"
           }`}
         >
@@ -94,7 +94,7 @@ const Navbar = () => {
 
         {/* RELEASES LINK */}
         <div
-          className={`group relative hover:text-primary transition duration-300 ${
+          className={`group relative transition duration-300 ${
             location.pathname === "/releases" ? "text-primary" : "text-white"
           }`}
         >
@@ -114,7 +114,7 @@ const Navbar = () => {
 
         {/* FAVORITES LINK */}
         <div
-          className={`group relative hover:text-primary transition duration-300 ${
+          className={`group relative transition duration-300 ${
             location.pathname === "/favorites" ? "text-primary" : "text-white"
           }`}
         >
