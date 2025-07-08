@@ -19,9 +19,20 @@ body{
 .no-scrollbar{
   scrollbar-width: none;
 }
-
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
 
 .no-scrollbar::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+  -webkit-appearance: none;
+}
+
+::-webkit-calendar-picker-indicator{
+  filter:invert(1);
+  cursor: pointer;
+}

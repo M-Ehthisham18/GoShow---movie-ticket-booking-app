@@ -101,7 +101,7 @@ const Dashboard = () => {
                 {show.movie.vote_average.toFixed(1)}
               </p>
             </div>
-            <p>{dateFormate(show.showDateTime)}</p>
+            <p className="pl-3">{dateFormate(show.showDateTime)}</p>
           </div>
         ))}
       </div>
