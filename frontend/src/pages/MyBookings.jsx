@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { dummyBookingData } from '../assets/assets';
 import BlurCircle from '../components/BlurCircle';
-import { dateFormate } from '../lib/dateformate';
+import { dateFormate } from '../lib/dateFormate.js';
 import timeFormat from '../lib/timeForamte';
 
 
