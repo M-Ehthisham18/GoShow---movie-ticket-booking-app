@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { assets, dummyDateTimeData, dummyShowsData } from "../assets/assets";
 import { ArrowRightIcon, ClockIcon } from "lucide-react";
 import Loader from "../components/Loader";
-import isoTimeFormate from "../lib/isoTimeFormate";
+import isoTimeFormate from "../lib/isoTimeFormate.js";
 import BlurCircle from "../components/BlurCircle";
 import toast from "react-hot-toast";
 

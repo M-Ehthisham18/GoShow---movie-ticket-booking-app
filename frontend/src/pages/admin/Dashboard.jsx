@@ -10,7 +10,7 @@ import { dummyDashboardData } from "../../assets/assets";
 import Loader from "../../components/Loader";
 import Title from "../../components/admin/Title";
 import BlurCircle from "../../components/BlurCircle";
-import { dateFormate } from "../../lib/dateFormate";
+import { dateFormate } from "../../lib/dateFormate.js";
 
 const Dashboard = () => {
   const currency = import.meta.env.VITE_CURRENCY;
