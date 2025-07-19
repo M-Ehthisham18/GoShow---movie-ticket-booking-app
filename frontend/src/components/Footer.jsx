@@ -54,7 +54,7 @@ const Footer = () => {
                 Movies{" "}
               </Link>
               <br />
-              <Link
+              {/* <Link
                 onClick={() => {
                   scrollTo(0, 0);
                   setIsOpen(false);
@@ -64,9 +64,9 @@ const Footer = () => {
               >
                 {" "}
                 Theaters{" "}
-              </Link>
+              </Link> */}
               <br />
-              <Link
+              {/* <Link
                 onClick={() => {
                   scrollTo(0, 0);
                   setIsOpen(false);
@@ -76,7 +76,7 @@ const Footer = () => {
               >
                 {" "}
                 Releases{" "}
-              </Link>
+              </Link> */}
               <br />
               <Link
                 onClick={() => {

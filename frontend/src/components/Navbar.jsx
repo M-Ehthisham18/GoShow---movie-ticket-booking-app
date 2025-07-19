@@ -74,7 +74,7 @@ const Navbar = () => {
         </div>
 
         {/* THEATERS LINK */}
-        <div
+        {/* <div
           className={`group relative transition duration-300 ${
             location.pathname === "/theaters" ? "text-primary" : "text-white"
           }`}
@@ -91,10 +91,10 @@ const Navbar = () => {
           <div className="absolute -inset-3 -z-10 opacity-0 group-hover:opacity-100 transition">
             <BlurCircle height="120px" width="120px" />
           </div>
-        </div>
+        </div> */}
 
         {/* RELEASES LINK */}
-        <div
+        {/* <div
           className={`group relative transition duration-300 ${
             location.pathname === "/releases" ? "text-primary" : "text-white"
           }`}
@@ -111,7 +111,7 @@ const Navbar = () => {
           <div className="absolute -inset-3 -z-10 opacity-0 group-hover:opacity-100 transition">
             <BlurCircle height="120px" width="120px" />
           </div>
-        </div>
+        </div> */}
 
         {/* FAVORITES LINK */}
         <div
