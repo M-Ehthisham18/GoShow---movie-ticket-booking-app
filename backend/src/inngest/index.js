@@ -22,7 +22,7 @@ const syncUserCreation = inngest.createFunction(
 );
 const syncUserDeletion = inngest.createFunction(
   {id: 'movie-ticket-booking-delete-user-with-clerk'},
-  {event : 'clerk/user.updated'},
+  {event : 'clerk/user.deleted'},
   async ({ event }) => {
     const {id} =event?.data;
     await User.findOneAndDelete({id});
@@ -30,9 +30,10 @@ const syncUserDeletion = inngest.createFunction(
 );
 const syncUserUpdation = inngest.createFunction(
   {id: 'movie-ticket-booking-update-user-from-clerk'},
-  {event : 'clerk/user.created'},
+  {event : 'clerk/user.updated'},
   async ({ event }) => {
     const { id , first_name, last_name, email_addresses, image_url} = event?.data;
+
     const userData = {
       _id : id,
       email : email_addresses[0].email_address,
