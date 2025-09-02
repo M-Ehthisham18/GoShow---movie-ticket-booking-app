@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Loader from '../../components/Loader';
 import Title from '../../components/admin/Title';
 import { dateFormate } from '../../lib/dateFormate.js';
-import { useAppContext } from '../../context/appContext';
+import { useAppContext } from '../../context/AppContext';
 import toast from 'react-hot-toast';
 
 const ListShows = () => {
