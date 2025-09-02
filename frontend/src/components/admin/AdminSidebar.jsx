@@ -2,7 +2,7 @@ import React from 'react'
 // import { assets } from '../../assets/assets'
 import { LayoutDashboardIcon, ListCollapseIcon, ListIcon, PlusSquareIcon} from 'lucide-react'
 import { NavLink } from 'react-router-dom';
-import { useAppContext } from '../../context/appContext';
+import { useAppContext } from '../../context/AppContext';
 
 const AdminSidebar = () => {
     const { user } = useAppContext();
