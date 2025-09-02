@@ -4,6 +4,7 @@ import { dateFormate } from "../lib/dateFormate.js";
 import timeFormat from "../lib/timeForamte.js";
 import { useAppContext } from "../context/AppContext.jsx";
 import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const MyBookings = () => {
   const { axios, user, getToken, image_base_url } = useAppContext();
@@ -66,9 +67,9 @@ const MyBookings = () => {
                 {currency} {item.amount}
               </p>
               {!item.isPaid && (
-                <button className="bg-primary px-4 py-1.5 mb-3 text-sm rounded-full font-medium cursor-pointer">
+                <Link to={item.paymentLink} className="bg-primary px-4 py-1.5 mb-3 text-sm rounded-full font-medium cursor-pointer">
                   Pay Now
-                </button>
+                </Link>
               )}
             </div>
             <div className="text-sm">
