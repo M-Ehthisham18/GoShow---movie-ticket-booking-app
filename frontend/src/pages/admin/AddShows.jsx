@@ -1,20 +1,40 @@
 import React, { useEffect, useRef, useState } from "react";
-import { dummyShowsData } from "../../assets/assets";
+// import { dummyShowsData } from "../../assets/assets";
 import Loader from "../../components/Loader";
 import Title from "../../components/admin/Title";
-import { StarIcon, CheckIcon,  Trash2Icon } from "lucide-react";
+import { StarIcon, CheckIcon, Trash2Icon } from "lucide-react";
 import kCoverter from "../../lib/kConverter.js";
+import { useAppContext } from "../../context/AppContext.jsx";
+import toast from "react-hot-toast";
 
 const AddShows = () => {
+  const { axios, getToken, user,image_base_url } = useAppContext();
   const currency = import.meta.env.VITE_CURRENCY;
   const [nowPlayingMovies, setNowPlayingMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [dateTimeInput, setDateTimeInput] = useState("");
   const [dateTimeSelection, setDateTimeSelection] = useState({});
   const [showPrice, setShowPrice] = useState("");
+  const [addingShow, setAddingShow] = useState(false);
 
   const fetchNowPlayingMovies = async () => {
-    setNowPlayingMovies(dummyShowsData);
+    try {
+      const { data } = await axios.get("/api/show/now-playing", {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`,
+        },
+      });
+      if (data.success) {
+        setNowPlayingMovies(data?.movies || []);
+      }
+    } catch (error) {
+      console.log("Error in fetchNowPlayingMovies", error);
+      toast.error(
+        error?.response?.data?.message ||
+          error.message ||
+          "Something went wrong"
+      );
+    }
   };
 
   const handleDateTimeAdd = async () => {
@@ -45,8 +65,10 @@ const AddShows = () => {
   };
 
   useEffect(() => {
-    fetchNowPlayingMovies();
-  }, []);
+    if(user){
+      fetchNowPlayingMovies();
+    }
+  }, [user]);
 
   //scroll
   const scrollRef = useRef(null);
@@ -76,6 +98,44 @@ const AddShows = () => {
     scrollRef.current.scrollLeft = scrollLeft - walk;
   };
 
+  const handleSubmit = async () => {
+    try {
+      setAddingShow(true);
+      if(!selectedMovie || Object.keys(dateTimeSelection).length === 0 || !showPrice){
+        return toast("Missing required fields");
+      }
+
+      const showsInput = Object.entries(dateTimeSelection).map(([date,time]) => ({date, time}));
+      const payload = {
+        movieId: selectedMovie,
+        showsInput,
+        showPrice: Number(showPrice)
+      }
+
+      const {data} = await axios.post("/api/show/add", payload,{
+        headers: {
+          Authorization: `Bearer ${await getToken()}`,
+        },
+      });
+      if(data?.success) {
+        toast.success(data.message);
+        setSelectedMovie(null);
+        setDateTimeSelection({});
+        setShowPrice("");
+      } else {
+        toast.error(data?.message || "Failed to add show");
+      }
+
+      setAddingShow(false);
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message ||
+          error.message ||
+          "Something went wrong"
+      );
+    }
+  }
+
   return nowPlayingMovies.length > 0 ? (
     <>
       <Title text1="Add " text2="Shows" />
@@ -98,7 +158,7 @@ const AddShows = () => {
             >
               <div>
                 <img
-                  src={movie.poster_path}
+                  src={image_base_url+movie.poster_path}
                   className="w-full object-cover brightness-90"
                   alt=""
                 />
@@ -192,13 +252,15 @@ const AddShows = () => {
         </div>
       )}
 
-      <button className="bg-primary text-white px-8 py-2 mt-6 rounded hover:bg-primary/80 transition-all cursor-pointer">
-      Add Show</button>
+      <button className="bg-primary text-white px-8 py-2 mt-6 rounded hover:bg-primary/80 transition-all cursor-pointer"
+        disabled={addingShow}
+        onClick={handleSubmit}
+      >
+        Add Show
+      </button>
     </>
   ) : (
-    <div className="w-full h-[100vh] flex items-center justify-center">
       <Loader />
-    </div>
   );
 };
 

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { dummyShowsData } from '../../assets/assets';
+// import { dummyShowsData } from '../../assets/assets';
 import Loader from '../../components/Loader';
 import Title from '../../components/admin/Title';
 import { dateFormate } from '../../lib/dateFormate.js';
+import { useAppContext } from '../../context/appContext';
+import toast from 'react-hot-toast';
 
 const ListShows = () => {
+  const { axios, getToken, user } = useAppContext();
   const currency = import.meta.env.VITE_CURRENCY;
 
   const [shows , setShows] = useState([]);
@@ -12,25 +15,22 @@ const ListShows = () => {
   
   const getAllShows = async () => {
     try {
-      setShows([{
-        movie : dummyShowsData[0],
-        showDateTime : "2025-07-06T02:30:00.000Z",
-        showPrice : 59,
-        occupiedSeats : {
-          A1: "uesr_1",
-          B1: "uesr_2",
-          C1: "uesr_3"
+      const {data} = await axios.get('/api/admin/all-shows',{
+        headers:{
+          Authorization: `Bearer ${await getToken()}`
         }
-      }]);
+      });
+      setShows(data?.shows);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
+      toast.error(error.message);
     }
   }
 
   useEffect(()=> {
-    getAllShows();
-  },[])
+    if(user) getAllShows();
+  },[user])
   return !loading ? (
     <>
     <Title text1="List " text2="Shows" />
@@ -61,9 +61,7 @@ const ListShows = () => {
     
     </>
   ) : (
-    <div className="w-full h-[100vh] flex items-center justify-center">
       <Loader />
-    </div>
   )
 }
 

@@ -1,23 +1,37 @@
 import React, { useEffect, useState } from 'react'
-import { dummyBookingData } from '../../assets/assets';
+// import { dummyBookingData } from '../../assets/assets';
 import Loader from '../../components/Loader';
 import Title from '../../components/admin/Title';
 import { dateFormate } from '../../lib/dateFormate.js';
+import { useAppContext } from '../../context/appContext.jsx';
+import toast from 'react-hot-toast';
 
 const ListBookings = () => {
+    const { axios, getToken, user } = useAppContext();
+  
   const currency = import.meta.env.VITE_CURRENCY;
   
     const [bookings , setBookings] = useState([]);
     const [ loading, setLoading] = useState(true);
 
     const getAllBookings = async () => {
-      setBookings(dummyBookingData)
-      setLoading(false)
+      try {
+        const { data } = await axios.get('/api/admin/all-bookings', {
+          headers: {
+            Authorization : `Bearer ${await getToken()}`
+          }
+        })
+        setBookings(data?.bookings);
+        setLoading(false);
+      } catch (error) {
+        toast.error(error.message)
+      }
+      setLoading(false);
     };
 
     useEffect(()=> {
-      getAllBookings()
-    },[]);
+      if(user) getAllBookings()
+    },[user]);
   return !loading ? (
     <>
       <Title text1="List " text2="Bookings"/> 
@@ -51,9 +65,7 @@ const ListBookings = () => {
       </div>
     </>
   ) : (
-    <div className="w-full h-[100vh] flex items-center justify-center">
       <Loader />
-    </div>
   )
 }
 

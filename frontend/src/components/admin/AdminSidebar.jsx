@@ -1,15 +1,18 @@
 import React from 'react'
-import { assets } from '../../assets/assets'
+// import { assets } from '../../assets/assets'
 import { LayoutDashboardIcon, ListCollapseIcon, ListIcon, PlusSquareIcon} from 'lucide-react'
 import { NavLink } from 'react-router-dom';
+import { useAppContext } from '../../context/appContext';
 
 const AdminSidebar = () => {
+    const { user } = useAppContext();
+  
 
-  const user = {
-    firstName : 'Admin',
-    lastName : 'User',
-    imageUrl : assets.profile,
-  };
+  // const user = {
+  //   firstName : 'Admin',
+  //   lastName : 'User',
+  //   imageUrl : assets.profile,
+  // };
 
   const adminNavlinks = [
     { name : 'Dashboard' , path : '/admin' , icon : LayoutDashboardIcon },

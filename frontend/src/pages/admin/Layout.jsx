@@ -1,22 +1,32 @@
-import React from 'react'
-import AdminNavbar from '../../components/admin/AdminNavbar'
-import AdminSidebar from '../../components/admin/AdminSidebar'
-import { Outlet } from 'react-router-dom'
+import React, { useEffect } from "react";
+import AdminNavbar from "../../components/admin/AdminNavbar";
+import AdminSidebar from "../../components/admin/AdminSidebar";
+import { Outlet } from "react-router-dom";
+import { useAppContext } from "../../context/AppContext.jsx";
+import Loader from "../../components/Loader";
 
 const Layout = () => {
-  return (
+  const { isAdmin, fetchIsAdmin } = useAppContext();
+
+  useEffect(() => {
+    fetchIsAdmin()
+  }, [])
+
+  return isAdmin ? (
     <>
-    <AdminNavbar/>
-    <div className='flex'>
-      <AdminSidebar/>
-      <div className='flex-1 px-4 py-10 md:px-10 h-[calc(100vh - 64px)] overflow-y-auto'>
-        <Outlet/>
+      <AdminNavbar />
+      <div className="flex">
+        <AdminSidebar />
+        <div className="flex-1 px-4 py-10 md:px-10 h-[calc(100vh - 64px)] overflow-y-auto">
+          <Outlet />
+        </div>
       </div>
-    </div>
     </>
-
-
+  ) :(
+    <div className="w-full h-[100vh] flex items-center justify-center">
+      <Loader />
+    </div>
   )
-}
+};
 
-export default Layout
+export default Layout;

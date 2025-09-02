@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Loader = () => {
+  const { nextUrl } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(nextUrl){
+      setTimeout(() => {
+        navigate("/"+nextUrl);
+      }, 4000);
+    }
+  }, [])
   return (
+    <div className="w-full h-[100vh] flex items-center justify-center">
     <StyledWrapper>
       <div className="pl">
         <div className="pl__dot" />
@@ -20,6 +32,7 @@ const Loader = () => {
         <div className="pl__text">Loading…</div>
       </div>
     </StyledWrapper>
+        </div>
   );
 }
 

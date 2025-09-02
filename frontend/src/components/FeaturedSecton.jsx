@@ -3,9 +3,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import BlurCircle from "./BlurCircle";
 import MovieCard from "./MovieCard";
-import { dummyShowsData } from "../assets/assets.js";
+// import { dummyShowsData } from "../assets/assets.js";
+import {useAppContext} from "../context/AppContext.jsx"
 
 const FeaturedSecton = () => {
+  const { shows } = useAppContext();
+
   const navigate = useNavigate();
   return (
     // sectin 1
@@ -24,8 +27,8 @@ const FeaturedSecton = () => {
       {/* sectin 2 */}
 
       <section>
-        <div className="grid gap-6 mt-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3   2xl:grid-cols-5 ">
-          {dummyShowsData?.map((show) => (
+        <div className="grid gap-6 mt-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-5 ">
+          {shows.map((show) => (
             <MovieCard key={show._id} movie={show} />
           ))}
         </div>

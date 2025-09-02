@@ -6,13 +6,17 @@ import {
   UserIcon,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { dummyDashboardData } from "../../assets/assets";
+// import { dummyDashboardData } from "../../assets/assets";
 import Loader from "../../components/Loader";
 import Title from "../../components/admin/Title";
 import BlurCircle from "../../components/BlurCircle";
 import { dateFormate } from "../../lib/dateFormate.js";
+import { useAppContext } from "../../context/AppContext.jsx";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
+  const { axios, getToken, user, image_base_url } = useAppContext();
+
   const currency = import.meta.env.VITE_CURRENCY;
 
   const [dashboardData, setDashboardData] = useState({
@@ -47,14 +51,31 @@ const Dashboard = () => {
     },
   ];
 
-  const fetchDashboardData = () => {
-    setDashboardData(dummyDashboardData);
-    setLoading(false);
+  const fetchDashboardData = async () => {
+    try {
+      const { data } = await axios.get("/api/admin/dashboard", {
+        headers: {
+          Authorization: `Bearer ${await getToken()}`,
+        },
+      });
+      if (data?.success) {
+        setDashboardData(data?.dashboardData);
+        setLoading(false);
+      } else {
+        toast.error(data?.message || "something went worng.");
+      }
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message ||
+          error.message ||
+          "Something went wrong"
+      );
+    }
   };
 
   useEffect(() => {
-    fetchDashboardData();
-  }, []);
+    if (user) fetchDashboardData();
+  }, [user]);
 
   return !loading ? (
     <>
@@ -84,10 +105,10 @@ const Dashboard = () => {
         {dashboardData.activeShows.map((show) => (
           <div
             key={show._id}
-            className="w-55 rounded-lg overflow-hidden h-full pb-3 bg-primary/10 border border-primary/20 hover:-translate-y-1 transition duration-300"
+            className="w-[clamp(250px,8vw,400px)] rounded-lg overflow-hidden h-full pb-3 bg-primary/10 border border-primary/20 hover:-translate-y-1 transition duration-300"
           >
             <img
-              src={show.movie.poster_path}
+              src={image_base_url + show.movie.posterPath}
               alt=""
               className="h-60 w-full object-cover"
             />
@@ -98,7 +119,8 @@ const Dashboard = () => {
               </p>
               <p className="flex items-center gap-1 text-sm text-gray-400 mt-1 pr-1">
                 <StarIcon className="w-4 h-4 text-primary fill-primary" />
-                {show.movie.vote_average.toFixed(1)}
+                {/* {show.movie.vote_average.toFixed(1)} */}
+                {(show?.movie?.voteAverage ?? 0).toFixed(1)}
               </p>
             </div>
             <p className="pl-3">{dateFormate(show.showDateTime)}</p>
@@ -107,9 +129,7 @@ const Dashboard = () => {
       </div>
     </>
   ) : (
-    <div className="w-full h-[100vh] flex items-center justify-center">
       <Loader />
-    </div>
   );
 };
 
